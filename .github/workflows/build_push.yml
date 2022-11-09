@@ -140,32 +140,6 @@ jobs:
           sed -i 's/^  #define GENERIC_ESP32/  \/\/#define GENERIC_ESP32/' esp32_marauder/configs.h
           sed -i 's/^  #define MARAUDER_FLIPPER/  \/\/#define MARAUDER_FLIPPER/' esp32_marauder/configs.h
           
-      - name: Build Marauder for Flipper Zero ESP32-S3
-        uses: ArminJo/arduino-test-compile@v3.2.0
-        with:
-          sketch-names: esp32_marauder.ino
-          arduino-board-fqbn: esp32:esp32:esp32s3:PartitionScheme=min_spiffs,FlashSize=8M,PSRAM=enabled
-          #platform-url: https://github.com/espressif/arduino-esp32/releases/download/2.0.0-rc1/package_esp32_dev_index.json
-          extra-arduino-cli-args: "--warnings none"
-          #extra-arduino-lib-install-args: "-zmuldefs"
-          
-      - name: Rename Marauder Flipper ESP32-S3 bin
-        run: |
-          mv ./esp32_marauder/build/esp32.esp32.esp32s2/esp32_marauder.ino.bin ./esp32_marauder/build/esp32.esp32.esp32s2/esp32_marauder.flipper-s3.bin
-          
-      - name: Configure TFT_eSPI and configs.h for OG Marauder
-        run: |
-          pwd
-          find /home/runner/ -name "*TFT_eSPI*"          
-          sed -i 's/^#include <User_Setup_marauder_mini.h>/\/\/#include <User_Setup_marauder_mini.h>/' /home/runner/Arduino/libraries/CustomTFT_eSPI/User_Setup_Select.h
-          sed -i 's/^\/\/#include <User_Setup_og_marauder.h>/#include <User_Setup_og_marauder.h>/' /home/runner/Arduino/libraries/CustomTFT_eSPI/User_Setup_Select.h
-          sed -i 's/^  #define MARAUDER_MINI/  \/\/#define MARAUDER_MINI/' esp32_marauder/configs.h
-          sed -i 's/^  \/\/#define MARAUDER_V4/  #define MARAUDER_V4/' esp32_marauder/configs.h
-          sed -i 's/^  #define MARAUDER_V6/  \/\/#define MARAUDER_V6/' esp32_marauder/configs.h
-          sed -i 's/^  #define MARAUDER_KIT/  \/\/#define MARAUDER_KIT/' esp32_marauder/configs.h
-          sed -i 's/^  #define GENERIC_ESP32/  \/\/#define GENERIC_ESP32/' esp32_marauder/configs.h
-          sed -i 's/^  #define MARAUDER_FLIPPER/  \/\/#define MARAUDER_FLIPPER/' esp32_marauder/configs.h
-          
       - name: Build Marauder for OG Marauder
         uses: ArminJo/arduino-test-compile@v3.2.0
         with:
@@ -262,13 +236,6 @@ jobs:
           path: ./esp32_marauder/build/esp32.esp32.esp32s2/esp32_marauder.flipper.bin
           retention-days: 5
           
-      - name: 'Upload Flipper S3 Artifact'
-        uses: actions/upload-artifact@v3
-        with:
-          name: esp32_marauder.flipper-s3.bin
-          path: ./esp32_marauder/build/esp32.esp32.esp32s2/esp32_marauder.flipper-s3.bin
-          retention-days: 5
-          
       - name: 'Upload OG Artifact'
         uses: actions/upload-artifact@v3
         with:
@@ -317,17 +284,6 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./esp32_marauder/build/esp32.esp32.esp32s2/esp32_marauder.flipper.bin
           asset_name: esp32_marauder.flipper.bin
-          asset_content_type: application/bin
-          
-      - name: Upload Flipper S3 Asset
-        id: upload-flipper-s3-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./esp32_marauder/build/esp32.esp32.esp32s2/esp32_marauder.flipper-s3.bin
-          asset_name: esp32_marauder.flipper-s3.bin
           asset_content_type: application/bin
           
       - name: Upload OG Asset
