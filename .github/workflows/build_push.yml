@@ -113,13 +113,12 @@ jobs:
           pwd
           find /home/runner/ -name "*TFT_eSPI*"          
           sed -i 's/^#include <User_Setup_marauder_mini.h>/\/\/#include <User_Setup_marauder_mini.h>/' /home/runner/Arduino/libraries/CustomTFT_eSPI/User_Setup_Select.h
-          sed -i 's/^\/\/#include <User_Setup_og_marauder.h>/#include <User_Setup_og_marauder.h>/' /home/runner/Arduino/libraries/CustomTFT_eSPI/User_Setup_Select.h
           sed -i 's/^  #define MARAUDER_MINI/  \/\/#define MARAUDER_MINI/' esp32_marauder/configs.h
           sed -i 's/^  #define MARAUDER_V4/  \/\/#define MARAUDER_V4/' esp32_marauder/configs.h
           sed -i 's/^  #define MARAUDER_V6/  \/\/#define MARAUDER_V6/' esp32_marauder/configs.h
           sed -i 's/^  #define MARAUDER_KIT/  \/\/#define MARAUDER_KIT/' esp32_marauder/configs.h
-          sed -i 's/^  \/\/#define GENERIC_ESP32/  #define GENERIC_ESP32/' esp32_marauder/configs.h
-          sed -i 's/^  #define MARAUDER_FLIPPER/  \/\/#define MARAUDER_FLIPPER/' esp32_marauder/configs.h
+          sed -i 's/^  #define GENERIC_ESP32/  \/\/#define GENERIC_ESP32/' esp32_marauder/configs.h
+          sed -i 's/^  \/\/#define MARAUDER_FLIPPER/  #define MARAUDER_FLIPPER/' esp32_marauder/configs.h
 
 
       - name: Build Marauder for ESP32-S3 Dev Board
