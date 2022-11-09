@@ -108,7 +108,21 @@ jobs:
             cat "$i" | grep compiler.c.elf.libs.esp32
           done
 
-      - name: Build Marauder for Flipper Zero ESP32-S3 Dev Board
+      - name: Configure TFT_eSPI and configs.h for ESP32-S3
+        run: |
+          pwd
+          find /home/runner/ -name "*TFT_eSPI*"          
+          sed -i 's/^#include <User_Setup_marauder_mini.h>/\/\/#include <User_Setup_marauder_mini.h>/' /home/runner/Arduino/libraries/CustomTFT_eSPI/User_Setup_Select.h
+          sed -i 's/^\/\/#include <User_Setup_og_marauder.h>/#include <User_Setup_og_marauder.h>/' /home/runner/Arduino/libraries/CustomTFT_eSPI/User_Setup_Select.h
+          sed -i 's/^  #define MARAUDER_MINI/  \/\/#define MARAUDER_MINI/' esp32_marauder/configs.h
+          sed -i 's/^  #define MARAUDER_V4/  \/\/#define MARAUDER_V4/' esp32_marauder/configs.h
+          sed -i 's/^  #define MARAUDER_V6/  \/\/#define MARAUDER_V6/' esp32_marauder/configs.h
+          sed -i 's/^  #define MARAUDER_KIT/  \/\/#define MARAUDER_KIT/' esp32_marauder/configs.h
+          sed -i 's/^  \/\/#define GENERIC_ESP32/  #define GENERIC_ESP32/' esp32_marauder/configs.h
+          sed -i 's/^  #define MARAUDER_FLIPPER/  \/\/#define MARAUDER_FLIPPER/' esp32_marauder/configs.h
+
+
+      - name: Build Marauder for ESP32-S3 Dev Board
         uses: ArminJo/arduino-test-compile@v3.2.0
         with:
           sketch-names: esp32_marauder.ino
@@ -116,9 +130,9 @@ jobs:
           extra-arduino-cli-args: "--warnings none"
           #extra-arduino-lib-install-args: "-zmuldefs"
           
-      - name: Rename Marauder Flipper bin
+      - name: Rename Marauder ESP32-S3 bin
         run: |
-          mv ./esp32_marauder/build/esp32.esp32.esp32s3/esp32_marauder.ino.bin ./esp32_marauder/build/esp32.esp32.esp32s3/esp32_marauder.flipper.bin
+          mv ./esp32_marauder/build/esp32.esp32.esp32s3/esp32_marauder.ino.bin ./esp32_marauder/build/esp32.esp32.esp32s3/esp32_marauder.ESP32-S3.bin
           
       - name: Display finished bins
         run: |
@@ -127,8 +141,8 @@ jobs:
       - name: 'Upload Flipper Artifact'
         uses: actions/upload-artifact@v3
         with:
-          name: esp32_marauder.flipper.bin
-          path: ./esp32_marauder/build/esp32.esp32.esp32s3/esp32_marauder.flipper.bin
+          name: esp32_marauder.ESP32-S3.bin
+          path: ./esp32_marauder/build/esp32.esp32.esp32s3/esp32_marauder.ESP32-S3.bin
           retention-days: 5
           
       - name: Create Release
