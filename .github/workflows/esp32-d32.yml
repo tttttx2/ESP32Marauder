@@ -102,12 +102,12 @@ jobs:
         run: |
           echo "Chicken"
           for i in $(find /home/runner/.arduino15/packages/esp32/hardware/esp32/ -name "platform.txt"); do
-          #  sed -i 's/compiler.c.elf.libs.d32=/compiler.c.elf.libs.d32=-zmuldefs /' "$i"
+            sed -i 's/compiler.c.elf.libs.esp32s3=/compiler.c.elf.libs.esp32s3=-zmuldefs /' "$i"
             sed -i 's/compiler.c.elf.libs.esp32=/compiler.c.elf.libs.esp32=-zmuldefs /' "$i"
-            cat "$i" | grep compiler.c.elf.libs.d32
+            cat "$i" | grep compiler.c.elf.libs.esp32s3
             cat "$i" | grep compiler.c.elf.libs.esp32
           done
-
+          
       - name: Configure TFT_eSPI and configs.h for LOLIN-D32
         run: |
           pwd
