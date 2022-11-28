@@ -1,4 +1,4 @@
-name: Build and Push
+name: LOLIN_D32
 
 on:
   workflow_dispatch:
