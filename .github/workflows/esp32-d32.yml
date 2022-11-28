@@ -95,7 +95,7 @@ jobs:
         uses: ArminJo/arduino-test-compile@v3.2.0
         with:
           sketch-names: MarauderOTA.ino
-          arduino-board-fqbn: esp32:esp32:d32
+          arduino-board-fqbn: esp32:esp32:esp32
           platform-url: https://github.com/espressif/arduino-esp32/releases/download/2.0.4/package_esp32_dev_index.json
                     
       - name: Modify platform.txt
@@ -125,15 +125,15 @@ jobs:
         uses: ArminJo/arduino-test-compile@v3.2.0
         with:
           sketch-names: esp32_marauder.ino
-          arduino-board-fqbn: esp32:esp32:d32:PartitionScheme=min_spiffs
+          arduino-board-fqbn: esp32:esp32:esp32:PartitionScheme=min_spiffs
           extra-arduino-cli-args: "--warnings none"
           #extra-arduino-lib-install-args: "-zmuldefs"
           
       - name: Rename Marauder LOLIN-D32 bin
         run: |
-          mv ./esp32_marauder/build/esp32.esp32.d32/esp32_marauder.ino.bin ./esp32_marauder/build/esp32.esp32.d32/esp32_marauder.LOLIN-D32.bin
-          mv ./esp32_marauder/build/esp32.esp32.d32/esp32_marauder.ino.bootloader.bin ./esp32_marauder/build/esp32.esp32.d32/esp32_marauder.LOLIN-D32.bootloader.bin
-          mv ./esp32_marauder/build/esp32.esp32.d32/esp32_marauder.ino.partitions.bin ./esp32_marauder/build/esp32.esp32.d32/esp32_marauder.LOLIN-D32.partitions.bin
+          mv ./esp32_marauder/build/esp32.esp32.esp32/esp32_marauder.ino.bin ./esp32_marauder/build/esp32.esp32.esp32/esp32_marauder.LOLIN-D32.bin
+          mv ./esp32_marauder/build/esp32.esp32.esp32/esp32_marauder.ino.bootloader.bin ./esp32_marauder/build/esp32.esp32.esp32/esp32_marauder.LOLIN-D32.bootloader.bin
+          mv ./esp32_marauder/build/esp32.esp32.esp32/esp32_marauder.ino.partitions.bin ./esp32_marauder/build/esp32.esp32.esp32/esp32_marauder.LOLIN-D32.partitions.bin
           
       - name: Display finished bins
         run: |
@@ -144,8 +144,8 @@ jobs:
         with:
           name: esp32_marauder.LOLIN-D32
           path: |
-            ./esp32_marauder/build/esp32.esp32.d32/esp32_marauder.LOLIN-D32.bin
-            ./esp32_marauder/build/esp32.esp32.d32/esp32_marauder.LOLIN-D32.bootloader.bin
-            ./esp32_marauder/build/esp32.esp32.d32/esp32_marauder.LOLIN-D32.partitions.bin
+            ./esp32_marauder/build/esp32.esp32.esp32/esp32_marauder.LOLIN-D32.bin
+            ./esp32_marauder/build/esp32.esp32.esp32/esp32_marauder.LOLIN-D32.bootloader.bin
+            ./esp32_marauder/build/esp32.esp32.esp32/esp32_marauder.LOLIN-D32.partitions.bin
 
           retention-days: 14
